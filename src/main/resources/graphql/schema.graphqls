@@ -1,0 +1,77 @@
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+scalar DateTime
+
+type Query {
+    getAllCategories:[Category]
+    getExpenseByUserId(userId:Int):[Expense]
+    getExpenseById(expenseId:Int):Expense
+    getExpenseByType(expenseType:ExpenseType):[Expense]
+    getExpenseBetweenDates(startDate:DateTime,endDate:DateTime):[Expense]
+}
+
+type Mutation {
+    addCategory(categoryDto:CategoryDto):Category
+    updateCategory(updateCategoryDto:FullCategoryDto):Category
+    DeleteCategory(categoryId:Int):String
+
+    addExpense(expenseDto:ExpenseDTO):Expense
+    updateExpenses(expenseDTO:ExpenseDTO):Expense
+    deleteExpenseById(expenseId:Int):String
+}
+
+
+input CategoryDto {
+    categoryId:ID
+    name:String!
+}
+
+input FullCategoryDto {
+    categoryId:ID
+    name:String
+}
+
+
+type User {
+    userId:ID!
+    userName:String
+    password:String
+}
+
+input UserDTO {
+    userId:ID!
+}
+
+type Category {
+    categoryId:ID
+    name:String
+}
+
+type Expense {
+    id:ID
+    user:User
+    category:Category
+    amount:Float
+    description:String
+    createdTime:DateTime
+    expenseType:ExpenseType
+}
+
+input ExpenseDTO{
+    id:ID
+    user:UserDTO
+    amount:Float!
+    category:CategoryDto!
+    description:String!
+    createdTime:DateTime!
+    expenseType:ExpenseType!
+}
+
+
+enum ExpenseType {
+    Income,
+    Expense
+}
